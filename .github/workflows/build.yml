@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22' # এখানে ভার্সন ২২ করে দেওয়া হয়েছে
+          node-version: '22'
 
       - name: Clean Install dependencies
         run: |
@@ -30,11 +30,10 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '17'
+          java-version: '21' # এখানে ১৭ থেকে বাড়িয়ে ২১ করা হলো
 
       - name: Build Android Project
         run: |
-          # অ্যান্ড্রয়েড প্ল্যাটফর্ম চেক এবং অ্যাড করা
           npm install @capacitor/android@latest @capacitor/cli@latest
           if [ ! -d "android" ]; then
             npx cap add android
@@ -47,4 +46,3 @@ jobs:
         with:
           name: app-release-apk
           path: android/app/build/outputs/apk/release/app-release-unsigned.apk
-          
