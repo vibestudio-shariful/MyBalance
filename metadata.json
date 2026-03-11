@@ -1,0 +1,5 @@
+{
+  "name": "My Balance",
+  "description": "A modern personal finance and transaction tracker with dashboard, transactions, savings, and backup features.",
+  "requestFramePermissions": []
+}
