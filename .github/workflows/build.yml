@@ -1,1 +1,44 @@
+name: Build Android APK (Capacitor)
 
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18' # আপনার প্রজেক্ট অনুযায়ী ভার্সন পরিবর্তন করতে পারেন
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Web Assets
+        run: npm run build
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      # এই স্টেপটি জরুরি কারণ এটি অ্যান্ড্রয়েড ফোল্ডার চেক করে
+      - name: Build Android Project
+        run: |
+          npx cap add android || echo "Android already added"
+          npx cap sync android
+          cd android && ./gradlew assembleRelease
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-apk
+          path: android/app/build/outputs/apk/release/app-release-unsigned.apk
