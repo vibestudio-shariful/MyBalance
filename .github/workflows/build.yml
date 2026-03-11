@@ -5,6 +5,10 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 
+env:
+  # গিটহাবের পরামর্শ অনুযায়ী Node.js 24 ফোর্স করার জন্য
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,7 +20,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24' # লেটেস্ট নোড ভার্সন সেট করা হলো
 
       - name: Clean Install dependencies
         run: |
@@ -30,7 +34,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '21' # এখানে ১৭ থেকে বাড়িয়ে ২১ করা হলো
+          java-version: '21'
 
       - name: Build Android Project
         run: |
